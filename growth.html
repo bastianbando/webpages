@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exponential Growth Calculator</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e5e7eb;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Exponential Growth Calculator</h1>
+
+        <!-- Input Fields -->
+        <div class="space-y-4">
+            <div>
+                <label for="initialValue" class="block text-sm font-medium text-gray-700">Initial Value</label>
+                <input type="number" id="initialValue" value="100" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3 focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out">
+            </div>
+
+            <div>
+                <label for="growthRate" class="block text-sm font-medium text-gray-700">Growth Rate (%)</label>
+                <input type="number" id="growthRate" value="5" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3 focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out">
+            </div>
+
+            <div>
+                <label for="timePeriod" class="block text-sm font-medium text-gray-700">Time Periods</label>
+                <input type="number" id="timePeriod" value="10" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3 focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out">
+            </div>
+        </div>
+
+        <!-- Calculation Button -->
+        <div class="mt-6">
+            <button id="calculateBtn" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-lg font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
+                Calculate
+            </button>
+        </div>
+
+        <!-- Result Display -->
+        <div class="mt-8 text-center">
+            <h2 class="text-xl font-semibold text-gray-800">Final Value:</h2>
+            <p id="result" class="mt-2 text-4xl font-extrabold text-indigo-600">0.00</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const initialValueInput = document.getElementById('initialValue');
+            const growthRateInput = document.getElementById('growthRate');
+            const timePeriodInput = document.getElementById('timePeriod');
+            const calculateBtn = document.getElementById('calculateBtn');
+            const resultDisplay = document.getElementById('result');
+
+            /**
+             * Calculates exponential growth based on a given initial value, growth rate, and time.
+             * @param {number} initialValue The starting value.
+             * @param {number} growthRate The growth rate as a decimal.
+             * @param {number} time The number of time periods.
+             * @returns {number} The final calculated amount.
+             */
+            function calculateExponentialGrowth(initialValue, growthRate, time) {
+                if (isNaN(initialValue) || isNaN(growthRate) || isNaN(time)) {
+                    return NaN;
+                }
+                const finalValue = initialValue * Math.pow((1 + growthRate), time);
+                return finalValue;
+            }
+
+            calculateBtn.addEventListener('click', () => {
+                const initialValue = parseFloat(initialValueInput.value);
+                const growthRate = parseFloat(growthRateInput.value) / 100; // Convert percentage to a decimal
+                const timePeriod = parseFloat(timePeriodInput.value);
+
+                if (isNaN(initialValue) || isNaN(growthRate) || isNaN(timePeriod)) {
+                    resultDisplay.textContent = 'Invalid input';
+                    resultDisplay.classList.remove('text-indigo-600');
+                    resultDisplay.classList.add('text-red-500');
+                    return;
+                }
+
+                const finalValue = calculateExponentialGrowth(initialValue, growthRate, timePeriod);
+
+                resultDisplay.textContent = `$${finalValue.toFixed(2)}`;
+                resultDisplay.classList.remove('text-red-500');
+                resultDisplay.classList.add('text-indigo-600');
+            });
+        });
+    </script>
+</body>
+</html>
